@@ -1,5 +1,7 @@
 package function
 
+import "math/rand"
+
 type Point []float64
 
 type Func struct {
@@ -69,4 +71,18 @@ func (f *Func) IsBelongs(p Point) bool {
 		}
 	}
 	return true
+}
+
+func (f *Func) RandomPoint(r *rand.Rand) Point {
+	newPoint := make(Point, f.Size)
+	for i := 0; i < f.Size; i++ {
+		for {
+			x := r.Float64()*(f.To[i]-f.From[i]) + f.From[i]
+			if f.IsBelongsCoord(x, i) {
+				newPoint[i] = x
+				break
+			}
+		}
+	}
+	return newPoint
 }
