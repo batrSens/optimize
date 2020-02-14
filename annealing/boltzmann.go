@@ -21,6 +21,8 @@ func NewBoltzmann(tempStart, tempFinish float64) *Boltzmann {
 	}
 }
 
+func (b *Boltzmann) Start(f *function.Func) {}
+
 func (b *Boltzmann) NextTemp(f *function.Func, i int) (float64, bool) {
 	if i == 0 {
 		return b.tempStart, false

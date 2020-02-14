@@ -1,8 +1,11 @@
 package annealing
 
-import "optimize/function"
+import (
+	"optimize/function"
+)
 
 type Arsonist interface {
+	Start(f *function.Func)
 	NextTemp(f *function.Func, i int) (float64, bool)
 	NewPoint(f *function.Func, xCur function.Point, temp float64) function.Point
 	IsNext(f *function.Func, xCur, xNew function.Point, temp float64) bool
@@ -14,13 +17,9 @@ func MinFunc(a Arsonist) func(f *function.Func) function.Point {
 	}
 }
 
-func MaxFunc(a Arsonist) func(f *function.Func) function.Point {
-	return func(f *function.Func) function.Point {
-		return Minimum(a, function.NewFuncReverse(f))
-	}
-}
-
 func Minimum(a Arsonist, f *function.Func) function.Point {
+	a.Start(f)
+
 	xCur := f.Center()
 	xMin := f.Center()
 
@@ -34,6 +33,9 @@ func Minimum(a Arsonist, f *function.Func) function.Point {
 
 		isNext := a.IsNext(f, xCur, xNew, t)
 		t, isFinish = a.NextTemp(f, i)
+		//if isFinish {
+		//	fmt.Println(i)
+		//}
 		if isNext {
 			xCur = xNew
 		}

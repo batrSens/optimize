@@ -29,12 +29,6 @@ func MinFunc(p Population) func(f *function.Func) function.Point {
 	}
 }
 
-func MaxFunc(p Population) func(f *function.Func) function.Point {
-	return func(f *function.Func) function.Point {
-		return Minimum(p, function.NewFuncReverse(f))
-	}
-}
-
 func Minimum(p Population, f *function.Func) function.Point {
 	p.Start(f)
 

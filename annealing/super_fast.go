@@ -12,15 +12,22 @@ type SuperFast struct {
 	tempFinish float64
 	decrement  float64
 	r          *rand.Rand
+
+	m, n float64
 }
 
-func NewSuperFast(tempStart, tempFinish, decrement float64) *SuperFast {
+func NewSuperFast(tempStart, tempFinish, m, n float64) *SuperFast {
 	return &SuperFast{
 		tempStart:  tempStart,
 		tempFinish: tempFinish,
-		decrement:  decrement,
+		m:          m,
+		n:          n,
 		r:          rand.New(rand.NewSource(time.Now().Unix())),
 	}
+}
+
+func (sf *SuperFast) Start(f *function.Func) {
+	sf.decrement = sf.m * math.Exp(-sf.n/float64(f.Size))
 }
 
 func (sf *SuperFast) NextTemp(f *function.Func, i int) (float64, bool) {
