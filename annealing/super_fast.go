@@ -39,7 +39,7 @@ func (sf *SuperFast) NextTemp(f *function.Func, i int) (float64, bool) {
 	return t, t < sf.tempFinish
 }
 
-func (sf *SuperFast) NewPoint(f *function.Func, xCur function.Point, temp float64) function.Point {
+func (sf *SuperFast) NewPoint(f *function.Func, xMin, xCur function.Point, temp float64) function.Point {
 	xNew := make(function.Point, f.Size)
 	rand.NormFloat64()
 	for i := range xNew {
@@ -63,6 +63,6 @@ func (sf *SuperFast) NewPoint(f *function.Func, xCur function.Point, temp float6
 
 func (sf *SuperFast) IsNext(f *function.Func, xCur, xNew function.Point, temp float64) bool {
 	p := math.Exp((f.F(xCur) - f.F(xNew)) / temp)
-	r := rand.Float64()
+	r := sf.r.Float64()
 	return r < p
 }

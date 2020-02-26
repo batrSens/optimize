@@ -32,7 +32,7 @@ func (b *Boltzmann) NextTemp(f *function.Func, i int) (float64, bool) {
 	return t, t < b.tempFinish
 }
 
-func (b *Boltzmann) NewPoint(f *function.Func, xCur function.Point, temp float64) function.Point {
+func (b *Boltzmann) NewPoint(f *function.Func, xMin, xCur function.Point, temp float64) function.Point {
 	xNew := make(function.Point, f.Size)
 	for i := range xNew {
 		for {
@@ -48,6 +48,6 @@ func (b *Boltzmann) NewPoint(f *function.Func, xCur function.Point, temp float64
 
 func (b *Boltzmann) IsNext(f *function.Func, xCur, xNew function.Point, temp float64) bool {
 	p := math.Exp((f.F(xCur) - f.F(xNew)) / temp)
-	r := rand.Float64()
+	r := b.r.Float64()
 	return r < p
 }
