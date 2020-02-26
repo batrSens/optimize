@@ -1,7 +1,9 @@
 package annealing
 
 import (
+	"math/rand"
 	"optimize/function"
+	"time"
 )
 
 type Arsonist interface {
@@ -20,8 +22,8 @@ func MinFunc(a Arsonist) func(f *function.Func) function.Point {
 func Minimum(a Arsonist, f *function.Func) function.Point {
 	a.Start(f)
 
-	xCur := f.Center()
-	xMin := f.Center()
+	xCur := f.RandomPoint(rand.New(rand.NewSource(time.Now().Unix())))
+	xMin := xCur
 	t, isFinish := a.NextTemp(f, 0)
 
 	for i := 1; !isFinish; i++ {
